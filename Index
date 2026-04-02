@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maggie’s Campground Challenge</title>
+
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #e9efe6;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 420px;
+  width: 100%;
+  background: #fffef8;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 1.4em;
+}
+
+.hidden {
+  display: none;
+}
+
+input[type="text"] {
+  font-size: 1.5em;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border: 2px solid #bbb;
+  border-radius: 6px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.05em;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #5c7f67;
+  color: white;
+}
+
+button:active {
+  background: #4b6a56;
+}
+
+.choice button {
+  margin-bottom: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.cell {
+  padding: 18px 0;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 6px;
+  background: #d8e5d2;
+}
+
+.wall {
+  background: #7a8b73;
+  color: #7a8b73;
+}
+
+.active {
+  background: #b0d4c2;
+}
+
+.end {
+  background: #a7c957;
+}
+
+.status, .maggie {
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.maggie {
+  font-style: italic;
+  color: #4f5d52;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.8em;
+  text-align: center;
+  color: #777;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>🐾 Maggie’s Campground Challenge</h1>
+  <p>
+    The tent is pitched. The road stretches on.<br>
+    Something important has been hidden.
+  </p>
+  <p>
+    Maggie knows where it is.<br>
+    She will only hand it over to someone paying attention.
+  </p>
+  <button onclick="next('intro','puzzle1')">Begin</button>
+</div>
+
+<!-- PUZZLE 1 -->
+<div id="puzzle1" class="hidden">
+  <h1>🏕️ The Camp Lock</h1>
+  <p>Maggie secured the supplies box with a four‑digit code.</p>
+  <ul>
+    <li>All digits are different</li>
+    <li>Divisible by 9</li>
+    <li>First two digits form a prime</li>
+    <li>Last two digits form a square</li>
+    <li>The sums of the two pairs are equal</li>
+  </ul>
+
+  <input id="code1" type="text" maxlength="4" inputmode="numeric">
+  <button onclick="checkCode()">Open the box</button>
+  <div class="maggie" id="m1"></div>
+</div>
+
+<!-- PUZZLE 2 -->
+<div id="puzzle2" class="hidden">
+  <h1>🧊 The Cooler Question</h1>
+  <p>Someone packed the camp cooler. Maggie remembers who.</p>
+
+  <p>
+    Alex did not pack anything kept inside the tent.<br>
+    The food near the books belonged to Blake or Casey.<br>
+    Drew packed something closer to food than to reading material.<br>
+    Casey didn’t pack anything that sits on furniture.<br>
+    Blake didn’t pack anything left outside overnight.
+  </p>
+
+  <div class="choice">
+    <button onclick="choose('Alex')">Alex</button>
+    <button onclick="choose('Blake')">Blake</button>
+    <button onclick="choose('Casey')">Casey</button>
+    <button onclick="choose('Drew')">Drew</button>
+  </div>
+
+  <div class="maggie" id="m2"></div>
+</div>
+
+<!-- PUZZLE 3 -->
+<div id="puzzle3" class="hidden">
+  <h1>🗺️ Across the Campsite</h1>
+  <p>
+    Start at the tent (S). Reach Maggie (E).<br>
+    Each marker once. Total distance = <strong>15</strong>.
+  </p>
+
+  <div class="grid" id="grid"></div>
+  <div class="status" id="status">Distance: 0</div>
+  <div class="maggie" id="m3"></div>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="hidden">
+  <h1>🎉 Maggie is satisfied</h1>
+  <p>
+    You followed the only sensible route.
+  </p>
+  <p>
+    <strong>Check Maggie’s pack.</strong>
+  </p>
+</div>
+
+<footer>
+  Powered by logic. Supervised by Maggie.
+</footer>
+
+</div>
+
+<script>
+function next(a,b){
+  document.getElementById(a).classList.add("hidden");
+  document.getElementById(b).classList.remove("hidden");
+}
+
+// Puzzle 1
+function checkCode() {
+  const val = document.getElementById("code1").value;
+  if (val === "6336") {
+    next("puzzle1","puzzle2");
+  } else {
+    document.getElementById("m1").textContent =
+      "Maggie tilts her head. That doesn’t work.";
+  }
+}
+
+// Puzzle 2
+function choose(name) {
+  if (name === "Drew") {
+    next("puzzle2","puzzle3");
+    buildGrid();
+  } else {
+    document.getElementById("m2").textContent =
+      "Maggie watches patiently. That doesn’t fit all the clues.";
+  }
+}
+
+// Puzzle 3
+const layout = [
+  ["S",2,"#",4],
+  [1,"#",3,"#"],
+  [2,4,1,"E"],
+  ["#",1,2,"#"]
+];
+
+let sum = 0;
+let used = new Set();
+
+function buildGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  layout.forEach(row => {
+    row.forEach(cell => {
+      const div = document.createElement("div");
+      div.className = "cell";
+
+      if (cell === "#") {
+        div.classList.add("wall");
+      } else {
+        div.textContent = cell;
+        div.onclick = () => step(cell, div);
+      }
+
+      grid.appendChild(div);
+    });
+  });
+}
+
+function step(value, div) {
+  if (value === "S" || value === "E") return;
+  if (used.has(div)) return;
+
+  used.add(div);
+  sum += value;
+  div.classList.add("active");
+  document.getElementById("status").textContent = "Distance: " + sum;
+
+  if (sum > 15) {
+    resetPath("Maggie sits down. That route was too long.");
+  }
+  if (sum === 15) {
+    finish();
+  }
+}
+
+function resetPath(msg) {
+  sum = 0;
+  used.clear();
+  document.querySelectorAll(".active").forEach(c => c.classList.remove("active"));
+  document.getElementById("status").textContent = "Distance: 0";
+  document.getElementById("m3").textContent = msg;
+}
+
+function finish() {
+  next("puzzle3","final");
+}
+</script>
+
+</body>
+</html>
