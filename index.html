@@ -21,7 +21,11 @@ body {
   padding: 20px;
   min-height: 100vh;
 }
-
+.scene {
+  width:100%;
+  border-radius: 8px;
+  margin: 12px 0;
+}
 h1 {
   font-size: 1.4em;
 }
@@ -107,11 +111,13 @@ footer {
 </head>
 
 <body>
+  <p>Testing icons: 🐕 ⛺ 🌲 🔥 🧭</p>
 <div class="container">
 
 <!-- INTRO -->
 <div id="intro">
   <h1>🐾 Maggie’s Campground Challenge</h1>
+  images/maggie1.jpg
   <p>
     The tent is pitched. The road stretches on.<br>
     Something important has been hidden.
@@ -143,26 +149,27 @@ footer {
 <!-- PUZZLE 2 -->
 <div id="puzzle2" class="hidden">
   <h1>🧊 The Cooler Question</h1>
+  images/all5.jpg
   <p>Someone packed the camp cooler. Maggie remembers who.</p>
 
   <p>
-    Alex did not pack anything kept inside the tent.<br>
-    The food near the books belonged to Blake or Casey.<br>
-    Drew packed something closer to food than to reading material.<br>
-    Casey didn’t pack anything that sits on furniture.<br>
-    Blake didn’t pack anything left outside overnight.
+    Malithi did not pack anything kept inside the tent.<br>
+    The food near the books belonged to Quinn or Ciara.<br>
+    Grace packed something closer to food than to reading material.<br>
+    Ciara didn’t pack anything that sits on furniture.<br>
+    Quinn didn’t pack anything left outside overnight.
   </p>
 
   <div class="choice">
-    <button onclick="choose('Alex')">Alex</button>
-    <button onclick="choose('Blake')">Blake</button>
-    <button onclick="choose('Casey')">Casey</button>
-    <button onclick="choose('Drew')">Drew</button>
+    <button onclick="choose('Malithi')">Malithi</button>
+    <button onclick="choose('Quinn')">Quinn</button>
+    <button onclick="choose('Ciara')">Ciara</button>
+    <button onclick="choose('Grace')">Grace</button>
   </div>
 
   <div class="maggie" id="m2"></div>
 </div>
-
+ 
 <!-- PUZZLE 3 -->
 <div id="puzzle3" class="hidden">
   <h1>🗺️ Across the Campsite</h1>
