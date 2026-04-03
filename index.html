@@ -166,7 +166,7 @@ footer {
   <h1>🏕️ The Camp Lock</h1>
   <img src ="images/maggie-esky.png" style="width:300px;">
     
-  <p>Maggie secured the supplies box with a four‑digit code.</p>
+  <p>Maggie secured the esky with a four‑digit code.</p>
   <ul>
     <li>All digits are different</li>
     <li>Divisible by 9</li>
@@ -186,17 +186,23 @@ footer {
 <div id="puzzle2" class="hidden">
   <h1>🧊 The Cooler Question</h1>
   <img src="images/all5.jpg" style="width:300px;">
-  <p>Someone packed the camp cooler. Maggie remembers who.</p>
+  <p> When we finally found a spot to moor, everyone scattered. Someone went straight in for a swim. Someone else grabbed a drink from the esky and started working on their tan. Another started getting lunch ready.
+In the middle of all that, the boat did get tied up at least for a while. At some point during the night, the boat quietly drifted from shore.
+Only Maggie remembers who tied up the boat.</p>
 
   <p>
-    Malithi did not pack anything kept inside the tent.<br>
-    The food near the books belonged to Quinn or Ciara.<br>
-    Grace packed something closer to food than to reading material.<br>
-    Ciara didn’t pack anything that sits on furniture.<br>
-    Quinn didn’t pack anything left outside overnight.
+Malithi and the person lying on the sunlounger were in the same location, but they were wearing different attire.<br>
+Grace and the person tying up the boat were in different Locations, yet they were the only two wearing casual clothes.<br>
+Ciara and the person swimming were both off the boat, but only one of them was wearing togs.<br>
+Quinn and the person cooking lunch were never in the same Location, but they shared the same attire.<br>
+
   </p>
 
   <div class="choice">
+    <!-- The hidden hint -->
+<p id="logic-hint" class="hidden" style="font-size: 0.9em; color: #555; background: #f9f9f9; padding: 10px; border-left: 3px solid #ccc;">
+  <strong>Maggie's Tip:</strong> Try categorising each person by their <strong>Location</strong> (On-Board vs Off-Board) and their <strong>Attire</strong> (Togs vs Casual).
+</p>
     <button onclick="choose('Malithi')">Malithi</button>
     <button onclick="choose('Quinn')">Quinn</button>
     <button onclick="choose('Ciara')">Ciara</button>
@@ -263,14 +269,22 @@ function checkCode() {
 
 // Puzzle 2
 function choose(name) {
-  if (name === "Grace") {
-    next("puzzle2","puzzle3");
-    buildGrid();
+  const correctAnswer = 'Quinn'; // Based on our logic
+  const hintElement = document.getElementById('logic-hint');
+  const maggieElement = document.getElementById('m2');
+
+  if (name === correctAnswer) {
+    maggieElement.innerHTML = "That's right! Quinn was on the dock in his street clothes.";
+    maggieElement.style.color = "green";
   } else {
-    document.getElementById("m2").textContent =
-      "Maggie watches patiently. That doesn’t fit all the clues.";
+    maggieElement.innerHTML = "Nope, that wasn't them. Think about who was wearing togs...";
+    maggieElement.style.color = "red";
+    
+    // Reveal the hint after a wrong guess
+    if (hintElement) {
+      hintElement.classList.remove('hidden');
+    }
   }
-}
 /* === HARDER VARIANT + MAGGIE REACTIONS === */
 // Puzzle 3
 
