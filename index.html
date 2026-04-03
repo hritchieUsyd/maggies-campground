@@ -73,7 +73,7 @@ button:active {
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   padding: 18px;
-  background: url("images/handdrawn-map.png") center/cover;
+  background: url("images/campsite.jpg") center/cover;
   border: 3px solid #5a6a5f;
   border-radius: 18px;
   box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
@@ -116,8 +116,10 @@ button:active {
 }
 
 .maggie {
+margin-top: 10px;
   font-style: italic;
   color: #4f5d52;
+  min-height: 1.5em;
 }
 
 footer {
@@ -294,32 +296,48 @@ function buildGrid() {
   });
 }
 
+
 function step(value, div) {
-  if (used.has(div)) return;
+  if (used.has(div)) {
+    document.getElementById("m3").textContent =
+      "Maggie cocks her head. You’ve already been there.";
+    return;
+  }
 
   used.add(div);
   sum += value;
   div.classList.add("active");
 
   document.getElementById("status").textContent = "Distance: " + sum;
+  document.getElementById("m3").textContent = "";
 
   if (sum > 15) {
-    resetPath("Maggie stops and stares. Too many steps.");
+    resetPath("Maggie sits down. That path was too long.");
   }
 }
 
-function resetPath(msg) {
+function resetPath(message) {
   sum = 0;
   used.clear();
-  document.querySelectorAll(".active").forEach(c => c.classList.remove("active"));
+
+  document.querySelectorAll(".active").forEach(c =>
+    c.classList.remove("active")
+  );
+
   document.getElementById("status").textContent = "Distance: 0";
-  document.getElementById("m3").textContent = msg;
+  document.getElementById("m3").textContent = message;
 }
 
 function finish() {
+  if (sum !== 15) {
+    resetPath("Maggie waits. That wasn’t exactly right.");
+    return;
+  }
+
   document.getElementById("puzzle3").classList.add("hidden");
   document.getElementById("final").classList.remove("hidden");
 }
+
 
 </script>
 
