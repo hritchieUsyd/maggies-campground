@@ -240,7 +240,7 @@ function next(a, b) {
   document.getElementById(a).classList.add("hidden");
   document.getElementById(b).classList.remove("hidden");
 }
-  }
+  
 // Puzzle 1
 function checkCode() {
   const val = document.getElementById("code1").value;
@@ -266,7 +266,7 @@ function choose(name) {
     next('puzzle2', 'puzzle3');
   }, 1500);
 }
-  } else {
+  } else 
     maggieElement.innerHTML = "Nope, that wasn't them. Think about who was wearing togs...";
     maggieElement.style.color = "red";
     
