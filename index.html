@@ -67,18 +67,26 @@ button:active {
 }
 
 .grid {
-  display: grid;
+
+ display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 15px;
+  gap: 10px;
+  padding: 14px;
+  background: #e3efe6;
+  border: 2px dashed #7a8b73;
+  border-radius: 12px;
 }
 
 .cell {
-  padding: 18px 0;
-  text-align: center;
+ background: #cfe3d3;
+  border-radius: 8px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
-  border-radius: 6px;
-  background: #d8e5d2;
+  font-size: 1.1em;
 }
 
 .wall {
@@ -92,6 +100,11 @@ button:active {
 
 .end {
   background: #a7c957;
+}
+
+.cell span.icon {
+  font-size: 1.4em;
+  line-height: 1;
 }
 
 .status, .maggie {
@@ -180,6 +193,8 @@ footer {
 <!-- PUZZLE 3 -->
 <div id="puzzle3" class="hidden">
   <h1>🗺️ Across the Campsite</h1>
+
+  <img src="images/campsite.jpg" class="scene" alt="C
   <p>
     Start at the tent (S). Reach Maggie (E).<br>
     Each marker once. Total distance = <strong>15</strong>.
@@ -247,7 +262,8 @@ let sum = 0;
 let used = new Set();
 
 function buildGrid() {
-  const grid = document.getElementById("grid");
+ 
+const grid = document.getElementById("grid");
   grid.innerHTML = "";
 
   layout.forEach(row => {
@@ -257,8 +273,13 @@ function buildGrid() {
 
       if (cell === "#") {
         div.classList.add("wall");
+      } else if (cell === "S") {
+        div.innerHTML = "<span class='icon'>⛺</span>";
+      } else if (cell === "E") {
+        div.classList.add("end");
+        div.innerHTML = "<span class='icon'>🐕</span>";
       } else {
-        div.textContent = cell;
+        div.innerHTML = "<span class='icon'>🧭</span><div>" + cell + "</div>";
         div.onclick = () => step(cell, div);
       }
 
