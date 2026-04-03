@@ -286,6 +286,7 @@ function buildGrid() {
       } else if (cell === "E") {
         div.classList.add("end");
         div.innerHTML = "<span class='icon'>🐕</span>";
+        div.onclick = () => finish();
       } else {
         div.innerHTML = "<span class='icon'>🪨</span><div>" + cell + "</div>";
         div.onclick = () => step(cell, div);
@@ -329,9 +330,14 @@ function resetPath(message) {
 }
 
 function finish() {
-  if (sum !== 15) {
+  if (sum === 15) {
+    document.getElementById("m3").textContent =
+      "Maggie wags her tail. That’s it.";
+    document.getElementById("puzzle3").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+  } else {
     resetPath("Maggie waits. That wasn’t exactly right.");
-    return;
+
   }
 
   document.getElementById("puzzle3").classList.add("hidden");
