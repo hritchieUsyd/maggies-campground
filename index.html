@@ -275,6 +275,7 @@ function choose(name) {
   if (name === correctAnswer) {
     maggieElement.innerHTML = "That's right! Quinn was on the shore tying up the boat.";
     maggieElement.style.color = "green";
+    setTimeout(() => next('puzzle2', 'puzzle3'), 1500);
   } else {
     maggieElement.innerHTML = "Nope, that wasn't them. Think about who was wearing togs...";
     maggieElement.style.color = "red";
