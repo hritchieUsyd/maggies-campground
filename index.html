@@ -66,46 +66,49 @@ button:active {
   margin-bottom: 8px;
 }
 
-.grid {
 
- display: grid;
+/* === HAND‑DRAWN MAP LOOK === */
+.grid {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 14px;
-  background: #e3efe6;
-  border: 2px dashed #7a8b73;
-  border-radius: 12px;
+  gap: 12px;
+  padding: 18px;
+  background: url("images/handdrawn-map.png") center/cover;
+  border: 3px solid #5a6a5f;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
 }
 
 .cell {
- background: #cfe3d3;
-  border-radius: 8px;
-  min-height: 64px;
+  background: rgba(255,255,255,0.85);
+  border: 2px solid #6f7f72;
+  border-radius: 14px;
+  min-height: 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: "Comic Sans MS", "Bradley Hand", cursive;
   font-weight: bold;
-  font-size: 1.1em;
-}
-
-.wall {
-  background: #7a8b73;
-  color: #7a8b73;
-}
-
-.active {
-  background: #b0d4c2;
-}
-
-.end {
-  background: #a7c957;
 }
 
 .cell span.icon {
-  font-size: 1.4em;
-  line-height: 1;
+  font-size: 1.6em;
 }
+
+.wall {
+  background: #6b6b6b;
+  border-style: dashed;
+}
+
+.active {
+  background: #fff3b0;
+}
+
+.end {
+  background: #b7e4c7;
+}
+``
 
 .status, .maggie {
   margin-top: 12px;
@@ -127,7 +130,7 @@ footer {
 </head>
 
 <body>
-  <p>Testing icons: 🐕 ⛺ 🌲 🔥 🧭</p>
+ 
 <div class="container">
 
 <!-- INTRO -->
@@ -196,8 +199,11 @@ footer {
 
   <img src="images/campsite.jpg" class="scene" alt="C
   <p>
-    Start at the tent (S). Reach Maggie (E).<br>
-    Each marker once. Total distance = <strong>15</strong>.
+    
+Start at the tent (⛺). Reach Maggie (🐕).<br>
+    Move only up, down, left, or right.<br>
+    Each marker only once. Total distance must be <strong>exactly 15</strong>.
+
   </p>
 
   <div class="grid" id="grid"></div>
@@ -249,21 +255,21 @@ function choose(name) {
       "Maggie watches patiently. That doesn’t fit all the clues.";
   }
 }
-
+/* === HARDER VARIANT + MAGGIE REACTIONS === */
 // Puzzle 3
+
 const layout = [
-  ["S",2,"#",4],
-  [1,"#",3,"#"],
-  [2,4,1,"E"],
-  ["#",1,2,"#"]
+  ["S", 2, "#", 4],
+  [1, "#", 3, 2],
+  [2, 4, 1, "E"],
+  ["#", 1, 2, "#"]
 ];
 
 let sum = 0;
 let used = new Set();
 
 function buildGrid() {
- 
-const grid = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   grid.innerHTML = "";
 
   layout.forEach(row => {
@@ -279,7 +285,7 @@ const grid = document.getElementById("grid");
         div.classList.add("end");
         div.innerHTML = "<span class='icon'>🐕</span>";
       } else {
-        div.innerHTML = "<span class='icon'>🧭</span><div>" + cell + "</div>";
+        div.innerHTML = "<span class='icon'>🪨</span><div>" + cell + "</div>";
         div.onclick = () => step(cell, div);
       }
 
@@ -289,19 +295,16 @@ const grid = document.getElementById("grid");
 }
 
 function step(value, div) {
-  if (value === "S" || value === "E") return;
   if (used.has(div)) return;
 
   used.add(div);
   sum += value;
   div.classList.add("active");
+
   document.getElementById("status").textContent = "Distance: " + sum;
 
   if (sum > 15) {
-    resetPath("Maggie sits down. That route was too long.");
-  }
-  if (sum === 15) {
-    finish();
+    resetPath("Maggie stops and stares. Too many steps.");
   }
 }
 
@@ -314,8 +317,10 @@ function resetPath(msg) {
 }
 
 function finish() {
-  next("puzzle3","final");
+  document.getElementById("puzzle3").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
 }
+
 </script>
 
 </body>
