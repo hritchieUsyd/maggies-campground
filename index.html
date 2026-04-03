@@ -82,7 +82,7 @@ button:active {
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   padding: 18px;
-  background: url("images/campsite.jpg") center/cover;
+  background: url("images/campsite1.jpg") center/cover;
   border: 3px solid #5a6a5f;
   border-radius: 18px;
   box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
@@ -250,9 +250,15 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 </div>
 
 <script>
-function next(a,b){
+function next(a, b) {
   document.getElementById(a).classList.add("hidden");
-  document.getElementById(b).classList.remove("hidden");
+  const nextSection = document.getElementById(b);
+  nextSection.classList.remove("hidden");
+
+  // CRITICAL: Build the grid when puzzle3 is actually shown
+  if (b === 'puzzle3') {
+    buildGrid();
+  }
 }
 
 // Puzzle 1
@@ -275,7 +281,11 @@ function choose(name) {
   if (name === correctAnswer) {
     maggieElement.innerHTML = "That's right! Quinn was on the shore tying up the boat.";
     maggieElement.style.color = "green";
-    setTimeout(() => next('puzzle2', 'puzzle3'), 1500);
+   // Transition to the map after a short delay
+  setTimeout(() => {
+    next('puzzle2', 'puzzle3');
+  }, 1500);
+}
   } else {
     maggieElement.innerHTML = "Nope, that wasn't them. Think about who was wearing togs...";
     maggieElement.style.color = "red";
