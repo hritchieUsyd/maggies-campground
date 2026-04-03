@@ -252,13 +252,7 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 <script>
 function next(a, b) {
   document.getElementById(a).classList.add("hidden");
-  const nextSection = document.getElementById(b);
-  nextSection.classList.remove("hidden");
-
-  // CRITICAL: Build the grid when puzzle3 is actually shown
-  if (b === 'puzzle3') {
-    buildGrid();
-  }
+  document.getElementById(b).classList.remove("hidden");
 }
 
 // Puzzle 1
