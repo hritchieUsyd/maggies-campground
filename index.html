@@ -145,15 +145,15 @@ footer {
 
 <!-- INTRO -->
 <div id="intro">
-  <h1>🐾 Maggie’s Campground Challenge</h1>
+  <h1>🐾 Maggie’s Campground Challenge 1.</h1>
   <img src="images/maggie1.jpg" style="width:300px;">
-  <p>The tent is pitched. The road stretches on.<br>Something important has been hidden.</p>
+  <p>The truck is parked, it's time to rest.<br>But it's not easter without a puzzle and Maggie is here to help.</p>
   <button onclick="next('intro','puzzle1')">Begin</button>
 </div>
 
 <!-- PUZZLE 1 -->
 <div id="puzzle1" class="hidden">
-  <h1>🏕️ The Camp Lock</h1>
+  <h1>🏕️ The Esky Lock</h1>
   <img src ="images/maggie-esky.png" style="width:300px;">
     
   <p>Maggie secured the esky with a four‑digit code.</p>
@@ -197,9 +197,9 @@ Quinn and the person cooking lunch were never in the same Location, but they sha
     <button onclick="choose('Quinn')">Quinn</button>
     <button onclick="choose('Ciara')">Ciara</button>
     <button onclick="choose('Grace')">Grace</button>
-  </div> <!-- This closing div was missing or misplaced -->
-  <div class="maggie" id="m2"></div>
-
+  </div> <!-- closes choice-->
+  <div class="maggie" id="m2"></div> <!-- results-->
+</div> <!-- closes puzzle>
  
 <!-- PUZZLE 3 -->
 <div id="puzzle3" class="hidden">
@@ -217,7 +217,7 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
   <div class="grid" id="grid"></div>
   <div class="status" id="status">Distance: 0</div>
   <div class="maggie" id="m3"></div>
-</div>
+</div> <!-- closes puzzle>
 
 <!-- FINAL -->
 <div id="final" class="hidden">
@@ -227,17 +227,13 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 
   <p>
     You followed the only sensible route.
+
   </p>
-  <p>
-    <strong>Check Maggie’s pack.</strong>
-  </p>
-</div>
+</div> <!-- closes final>
 
 <footer>
   Powered by logic. Supervised by Maggie.
 </footer>
-
-</div>
 
 <script>
 function next(a, b) {
