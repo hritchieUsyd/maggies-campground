@@ -170,9 +170,9 @@ footer {
   <ul>
     <li>All digits are different</li>
     <li>Divisible by 9</li>
-    <li>First two digits form a prime</li>
+    <li>First two digits form a prime greater than 50</li>
     <li>Last two digits form a square</li>
-    <li>The sums of the two pairs are equal</li>
+    <li>The number is not a mirror</li>
   </ul>
 
   <input id="code1" type="text" maxlength="4" inputmode="numeric">
@@ -251,7 +251,7 @@ function next(a,b){
 // Puzzle 1
 function checkCode() {
   const val = document.getElementById("code1").value;
-  if (val === "6336") {
+  if (val === "5364") {
     next("puzzle1","puzzle2");
   } else {
     document.getElementById("m1").textContent =
