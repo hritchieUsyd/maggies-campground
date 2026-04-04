@@ -147,7 +147,7 @@ footer {
   <h1>🐾 Maggie’s Campground Challenge v4</h1>
   <img src="images/maggie1.jpg" style="width:300px;">
   <p>The truck is parked, it's time to rest.<br>But it's not easter without a puzzle and Maggie is here to help.</p>
-  <button onclick="next('intro','puzzle1')">Begin</button>
+<button onclick="test()">Begin</button>
 </div>
 
 <!-- PUZZLE 1 -->
@@ -235,6 +235,9 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 </footer>
 
 <script>
+  console.log("Script is loading!");
+function test() { alert("The button is working!"); }
+  
 function next(a, b) {
   document.getElementById(a).classList.add("hidden");
   document.getElementById(b).classList.remove("hidden");
