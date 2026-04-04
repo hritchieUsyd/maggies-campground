@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maggie’s Campground Challenge v2</title>
+<title>Maggie’s Campground Challenge</title>
 
 <style>
 body {
@@ -145,7 +145,7 @@ footer {
 
 <!-- INTRO -->
 <div id="intro">
-  <h1>🐾 Maggie’s Campground Challenge v3</h1>
+  <h1>🐾 Maggie’s Campground Challenge v4</h1>
   <img src="images/maggie1.jpg" style="width:300px;">
   <p>The truck is parked, it's time to rest.<br>But it's not easter without a puzzle and Maggie is here to help.</p>
   <button onclick="next('intro','puzzle1')">Begin</button>
@@ -236,60 +236,38 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 </footer>
 
 <script>
-// This function handles the screen transitions
 function next(a, b) {
-  const current = document.getElementById(a);
-  const nextSection = document.getElementById(b);
-  
-  if (current && nextSection) {
-    current.classList.add("hidden");
-    nextSection.classList.remove("hidden");
-    
-    // Special trigger: Build the grid only when Puzzle 3 is reached
-    if (b === 'puzzle3') {
-      buildGrid();
-    }
-  }
+  document.getElementById(a).classList.add("hidden");
+  document.getElementById(b).classList.remove("hidden");
+  if (b === 'puzzle3') buildGrid();
 }
-// Puzzle 1
+
 function checkCode() {
   const val = document.getElementById("code1").value;
   if (val === "2349") {
-    next("puzzle1","puzzle2");
+    next("puzzle1", "puzzle2");
   } else {
-    document.getElementById("m1").textContent =
-      "Maggie tilts her head. That doesn’t work.";
+    document.getElementById("m1").textContent = "Maggie tilts her head. That doesn’t work.";
   }
 }
 
-// Puzzle 2
 function choose(name) {
-  const correctAnswer = 'Quinn'; // Based on our logic
+  const correctAnswer = 'Quinn';
   const hintElement = document.getElementById('logic-hint');
   const maggieElement = document.getElementById('m2');
 
   if (name === correctAnswer) {
     maggieElement.innerHTML = "That's right! Quinn was on the shore tying up the boat.";
     maggieElement.style.color = "green";
-    setTimeout(() => {
-    next('puzzle2', 'puzzle3');
-  }, 1500);
+    setTimeout(() => { next('puzzle2', 'puzzle3'); }, 1500);
   } else {
     maggieElement.innerHTML = "Nope, that wasn't them. Think about who was wearing togs...";
     maggieElement.style.color = "red";
-    if (hintElement) {
-      hintElement.classList.remove('hidden');
-    }
+    if (hintElement) hintElement.classList.remove('hidden');
   }
 }
-/* === Puzzle 3 Logic === */
-const layout = [
-  ["S", 2, "#", 4],
-  [2, "#", 3, 2],
-  [3, 4, 2, "E"],
-  ["#", 2, 2, "#"]
-];
 
+const layout = [["S", 2, "#", 4], [2, "#", 3, 2], [3, 4, 2, "E"], ["#", 2, 2, "#"]];
 let sum = 0;
 let used = new Set();
 
@@ -297,62 +275,41 @@ function buildGrid() {
   const grid = document.getElementById("grid");
   if (!grid) return;
   grid.innerHTML = "";
-
   layout.forEach(row => {
     row.forEach(cell => {
       const div = document.createElement("div");
       div.className = "cell";
-
-      if (cell === "#") {
-        div.classList.add("wall");
-      } else if (cell === "S") {
-        div.innerHTML = "<span class='icon'>⛺</span>";
-      } else if (cell === "E") {
-        div.classList.add("end");
-        div.innerHTML = "<span class='icon'>🐕</span>";
-        div.onclick = () => finish();
-      } else {
-        div.innerHTML = "<span class='icon'>🪨</span><div>" + cell + "</div>";
-        div.onclick = () => step(cell, div);
+      if (cell === "S") div.innerHTML = "⛺";
+      else if (cell === "E") { div.innerHTML = "🐕"; div.onclick = finish; }
+      else if (cell === "#") div.className = "cell wall";
+      else {
+        div.innerHTML = cell;
+        div.onclick = () => {
+          if (!used.has(div)) {
+            used.add(div);
+            sum += cell;
+            div.classList.add("active");
+            document.getElementById("status").textContent = "Distance: " + sum;
+            if (sum > 15) resetPath("Too far!");
+          }
+        };
       }
       grid.appendChild(div);
     });
   });
 }
 
-function step(value, div) {
-  if (used.has(div)) {
-    document.getElementById("m3").textContent = "Maggie cocks her head. You’ve already been there.";
-    return;
-  }
-  used.add(div);
-  sum += value;
-  div.classList.add("active");
-  document.getElementById("status").textContent = "Distance: " + sum;
-  document.getElementById("m3").textContent = "";
-
-  if (sum > 15) {
-    resetPath("Maggie sits down. That path was too long.");
-  }
+function finish() {
+  if (sum === 15) next("puzzle3", "final");
+  else resetPath("Not 15!");
 }
 
-function resetPath(message) {
+function resetPath(msg) {
   sum = 0;
   used.clear();
-  document.querySelectorAll(".active").forEach(c => c.classList.remove("active"));
   document.getElementById("status").textContent = "Distance: 0";
-  document.getElementById("m3").textContent = message;
-}
-
-function finish() {
-  if (sum === 15) {
-    document.getElementById("m3").textContent = "Maggie wags her tail. That’s it.";
-    setTimeout(() => {
-        next('puzzle3', 'final');
-    }, 1000);
-  } else {
-    resetPath("Maggie waits. That wasn’t exactly 15.");
-  }
+  document.getElementById("m3").textContent = msg;
+  buildGrid();
 }
 
 window.onload = buildGrid;
