@@ -145,7 +145,7 @@ footer {
 
 <!-- INTRO -->
 <div id="intro">
-  <h1>🐾 Maggie’s Campground Challenge v2</h1>
+  <h1>🐾 Maggie’s Campground Challenge v3</h1>
   <img src="images/maggie1.jpg" style="width:300px;">
   <p>The truck is parked, it's time to rest.<br>But it's not easter without a puzzle and Maggie is here to help.</p>
   <button onclick="next('intro','puzzle1')">Begin</button>
@@ -236,12 +236,21 @@ Start at the tent (⛺). Reach Maggie (🐕).<br>
 </footer>
 
 <script>
+// This function handles the screen transitions
 function next(a, b) {
-  document.getElementById(a).classList.add("hidden");
-  document.getElementById(b).classList.remove("hidden");
-  if (b === 'puzzle3') buildGrid();
-}
+  const current = document.getElementById(a);
+  const nextSection = document.getElementById(b);
   
+  if (current && nextSection) {
+    current.classList.add("hidden");
+    nextSection.classList.remove("hidden");
+    
+    // Special trigger: Build the grid only when Puzzle 3 is reached
+    if (b === 'puzzle3') {
+      buildGrid();
+    }
+  }
+}
 // Puzzle 1
 function checkCode() {
   const val = document.getElementById("code1").value;
